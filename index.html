@@ -650,31 +650,12 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- Firebase config loaded from separate file -->
+    <script src="firebase-config.js"></script>
 
     <script>
-        // =====================================================
-        // FIREBASE CONFIGURATION - REPLACE WITH YOUR OWN!
-        // =====================================================
-        // 1. Go to https://console.firebase.google.com/
-        // 2. Create a new project (or use existing)
-        // 3. Click "Build" > "Realtime Database" > "Create Database"
-        // 4. Choose "Start in test mode" (for simplicity)
-        // 5. Go to Project Settings > General > Your apps > Add web app
-        // 6. Copy your config values below:
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyDrmhGGd1aYx9UK45pHWW7rbttZdf3Oxsw",
-            authDomain: "sweater-vote.firebaseapp.com",
-            databaseURL: "https://sweater-vote-default-rtdb.firebaseio.com",
-            projectId: "sweater-vote",
-            storageBucket: "sweater-vote.firebasestorage.app",
-            messagingSenderId: "903383140336",
-            appId: "1:903383140336:web:c999f61987c2960441ff35"
-        };
-        // =====================================================
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase using config from firebase-config.js
+        firebase.initializeApp(window.FIREBASE_CONFIG);
         const database = firebase.database();
 
         // Generate or retrieve device ID

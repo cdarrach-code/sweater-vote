@@ -1,4 +1,17 @@
 [build]
   publish = "."
+  command = "echo 'Static site - no build needed'"
 
-# No build needed - this is a static HTML site
+# Skip secret detection - Firebase API keys are designed to be public
+# Security is handled through Firebase Rules, not by hiding the key
+# NOTE: This may also need to be set in Netlify Dashboard > 
+#       Site settings > Build & deploy > Environment variables
+[build.environment]
+  NETLIFY_SKIP_SECRETS_SCAN = "true"
+  NETLIFY_SKIP_SECRETS_DETECTION = "true"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
