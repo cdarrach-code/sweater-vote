@@ -247,6 +247,19 @@
             margin-bottom: 20px;
         }
 
+        .already-voted .santa-img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+            animation: santaBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes santaBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         .already-voted h2 {
             font-family: 'Mountains of Christmas', cursive;
             font-size: 2rem;
@@ -624,7 +637,7 @@
             </div>
 
             <div id="already-voted" class="already-voted" style="display: none;">
-                <div class="icon">🎉</div>
+                <img src="santa-thumbs.png" alt="Santa giving thumbs up" class="santa-img">
                 <h2>Thanks for Voting!</h2>
                 <p>You've already cast your vote on this device. Check out the Results page to see how the contest is going!</p>
             </div>
