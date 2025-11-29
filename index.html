@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ugly Sweater Contest 🎄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --burgundy: #8B1538;
+            --deep-green: #1B4332;
+            --cream: #FDF6E3;
+            --gold: #D4A03C;
+            --snow: #F8F9FA;
+            --charcoal: #2D2D2D;
+            --light-green: #2D6A4F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--deep-green) 0%, #0D2818 100%);
+            min-height: 100vh;
+            color: var(--cream);
+            overflow-x: hidden;
+        }
+
+        /* Knit pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 2.8rem;
+            color: var(--cream);
+            text-shadow: 3px 3px 0 var(--burgundy), 5px 5px 10px rgba(0,0,0,0.3);
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+
+        .emoji-header {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--burgundy) 0%, #A91D45 100%);
+            color: var(--cream);
+            box-shadow: 0 4px 15px rgba(139, 21, 56, 0.4);
+        }
+
+        .nav-btn:not(.active) {
+            background: rgba(255,255,255,0.1);
+            color: var(--cream);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-btn:not(.active):hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .category-title {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .category-subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .sweater-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        .name-input-group {
+            margin-top: 0;
+        }
+
+        .name-input-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            color: var(--cream);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .name-input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 20px rgba(212, 160, 60, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, var(--burgundy) 0%, #A91D45 100%);
+            color: var(--cream);
+            border: none;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(139, 21, 56, 0.4);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 21, 56, 0.5);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .already-voted {
+            text-align: center;
+            padding: 50px 25px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .already-voted .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .already-voted h2 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .already-voted p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        /* Results Page */
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .results-header h2 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .total-votes {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .result-category {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .result-category h3 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 1.6rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .result-item.winner {
+            background: linear-gradient(135deg, rgba(212,160,60,0.2) 0%, rgba(212,160,60,0.1) 100%);
+            border: 2px solid var(--gold);
+        }
+
+        .result-item.winner::before {
+            content: '👑';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+
+        .result-rank {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .result-item.winner .result-rank {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        .result-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .result-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .result-bar-container {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .result-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--burgundy), #A91D45);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .result-item.winner .result-bar {
+            background: linear-gradient(90deg, var(--gold), #E8B84A);
+        }
+
+        .result-votes {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--gold);
+            min-width: 45px;
+            text-align: right;
+        }
+
+        .result-votes span {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            font-weight: 500;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, var(--deep-green) 0%, var(--light-green) 100%);
+            color: var(--cream);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(135deg, var(--light-green) 0%, #40916C 100%);
+            transform: translateY(-2px);
+        }
+
+        .no-votes {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .no-votes .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: rgba(255,255,255,0.3);
+            font-size: 1rem;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--gold);
+            color: var(--charcoal);
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.4s ease;
+            text-align: center;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .vote-instructions {
+            text-align: center;
+            padding: 15px 20px;
+            background: rgba(212, 160, 60, 0.15);
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(212, 160, 60, 0.3);
+        }
+
+        .vote-instructions p {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 40, 24, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .loading-spinner {
+            font-size: 4rem;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 1.5rem;
+            color: var(--gold);
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .connection-status.online {
+            background: rgba(45, 106, 79, 0.8);
+            color: var(--cream);
+        }
+
+        .connection-status.offline {
+            background: rgba(139, 21, 56, 0.8);
+            color: var(--cream);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .connection-status.online .status-dot {
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        .connection-status.offline .status-dot {
+            background: #f87171;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .category-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loading">
+        <div class="loading-spinner">❄️</div>
+        <div class="loading-text">Loading Contest...</div>
+    </div>
+
+    <div class="connection-status online" id="connection-status">
+        <div class="status-dot"></div>
+        <span>Live</span>
+    </div>
+
+    <div class="snowflakes" id="snowflakes"></div>
+    
+    <div class="container">
+        <header>
+            <div class="emoji-header">🎄 🦌 ⛄</div>
+            <h1>Ugly Sweater Contest</h1>
+            <p class="subtitle">Vote for your favorites!</p>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" data-page="vote">🗳️ Vote</button>
+            <button class="nav-btn" data-page="results">🏆 Results</button>
+        </nav>
+
+        <!-- Voting Page -->
+        <div id="vote-page" class="page active">
+            <div id="voting-form">
+                <div class="vote-instructions">
+                    <p>Enter the name of the person wearing your favorite ugly sweater!</p>
+                </div>
+
+                <!-- Adult Category -->
+                <div class="category">
+                    <h2 class="category-title">🧑 Adult Division</h2>
+                    <p class="category-subtitle">Best Ugly Sweater - Adult</p>
+                    <div class="name-input-group">
+                        <label for="adult-name">Who gets your vote?</label>
+                        <input type="text" id="adult-name" class="name-input" placeholder="Enter person's name..." autocomplete="off">
+                    </div>
+                </div>
+
+                <!-- Child Category -->
+                <div class="category">
+                    <h2 class="category-title">👶 Child Division</h2>
+                    <p class="category-subtitle">Best Ugly Sweater - Child</p>
+                    <div class="name-input-group">
+                        <label for="child-name">Who gets your vote?</label>
+                        <input type="text" id="child-name" class="name-input" placeholder="Enter person's name..." autocomplete="off">
+                    </div>
+                </div>
+
+                <button class="submit-btn" id="submit-vote" disabled>🎁 Cast Your Vote!</button>
+            </div>
+
+            <div id="already-voted" class="already-voted" style="display: none;">
+                <div class="icon">🎉</div>
+                <h2>Thanks for Voting!</h2>
+                <p>You've already cast your vote on this device. Check out the Results page to see how the contest is going!</p>
+            </div>
+        </div>
+
+        <!-- Results Page -->
+        <div id="results-page" class="page">
+            <div class="results-header">
+                <h2>🏆 Current Standings</h2>
+                <p class="total-votes">Total voters: <span id="total-votes">0</span></p>
+            </div>
+
+            <div id="results-content">
+                <!-- Results will be populated by JS -->
+            </div>
+
+            <button class="reset-btn" id="reset-btn">🔄 Reset Contest & Reopen Voting</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Vote submitted successfully! 🎉</div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <script>
+        // =====================================================
+        // FIREBASE CONFIGURATION - REPLACE WITH YOUR OWN!
+        // =====================================================
+        // 1. Go to https://console.firebase.google.com/
+        // 2. Create a new project (or use existing)
+        // 3. Click "Build" > "Realtime Database" > "Create Database"
+        // 4. Choose "Start in test mode" (for simplicity)
+        // 5. Go to Project Settings > General > Your apps > Add web app
+        // 6. Copy your config values below:
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDrmhGGd1aYx9UK45pHWW7rbttZdf3Oxsw",
+            authDomain: "sweater-vote.firebaseapp.com",
+            databaseURL: "https://sweater-vote-default-rtdb.firebaseio.com",
+            projectId: "sweater-vote",
+            storageBucket: "sweater-vote.firebasestorage.app",
+            messagingSenderId: "903383140336",
+            appId: "1:903383140336:web:c999f61987c2960441ff35"
+        };
+        // =====================================================
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Generate or retrieve device ID
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('sweater_device_id');
+            if (!deviceId) {
+                deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('sweater_device_id', deviceId);
+            }
+            return deviceId;
+        }
+
+        const deviceId = getDeviceId();
+        let currentContestVersion = 0;
+        let currentVotes = { adult: {}, child: {} };
+        let voterCount = 0;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createSnowflakes();
+            setupNavigation();
+            setupVoting();
+            setupRealtimeListeners();
+        });
+
+        // Setup real-time listeners for Firebase
+        function setupRealtimeListeners() {
+            const contestRef = database.ref('contest');
+            
+            // Listen for all contest data changes
+            contestRef.on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                
+                currentContestVersion = data.version || 0;
+                currentVotes = data.votes || { adult: {}, child: {} };
+                voterCount = data.voterCount || 0;
+                
+                // Check if this device has voted in current contest version
+                const votedVersion = localStorage.getItem('sweater_voted_version');
+                const hasVoted = votedVersion && parseInt(votedVersion) === currentContestVersion;
+                
+                updateVotingUI(hasVoted);
+                renderResults();
+                
+                // Hide loading screen
+                document.getElementById('loading').classList.add('hidden');
+            }, (error) => {
+                console.error('Firebase error:', error);
+                showToast('Connection error. Please refresh.');
+                document.getElementById('loading').classList.add('hidden');
+            });
+
+            // Monitor connection state
+            const connectedRef = database.ref('.info/connected');
+            connectedRef.on('value', (snapshot) => {
+                const statusEl = document.getElementById('connection-status');
+                if (snapshot.val() === true) {
+                    statusEl.className = 'connection-status online';
+                    statusEl.innerHTML = '<div class="status-dot"></div><span>Live</span>';
+                } else {
+                    statusEl.className = 'connection-status offline';
+                    statusEl.innerHTML = '<div class="status-dot"></div><span>Offline</span>';
+                }
+            });
+        }
+
+        function updateVotingUI(hasVoted) {
+            if (hasVoted) {
+                document.getElementById('voting-form').style.display = 'none';
+                document.getElementById('already-voted').style.display = 'block';
+            } else {
+                document.getElementById('voting-form').style.display = 'block';
+                document.getElementById('already-voted').style.display = 'none';
+                // Clear inputs when voting reopens
+                document.getElementById('adult-name').value = '';
+                document.getElementById('child-name').value = '';
+                document.getElementById('submit-vote').disabled = true;
+            }
+        }
+
+        // Create falling snowflakes
+        function createSnowflakes() {
+            const container = document.getElementById('snowflakes');
+            const snowflakeChars = ['❄', '❅', '❆', '✦'];
+            
+            for (let i = 0; i < 20; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                snowflake.style.animationDelay = Math.random() * 10 + 's';
+                snowflake.style.fontSize = (Math.random() * 0.8 + 0.6) + 'rem';
+                container.appendChild(snowflake);
+            }
+        }
+
+        // Navigation
+        function setupNavigation() {
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const page = btn.dataset.page;
+                    
+                    // Update nav buttons
+                    navBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Update pages
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById(`${page}-page`).classList.add('active');
+                });
+            });
+        }
+
+        // Voting setup
+        function setupVoting() {
+            const adultInput = document.getElementById('adult-name');
+            const childInput = document.getElementById('child-name');
+            const submitBtn = document.getElementById('submit-vote');
+
+            // Enable/disable submit button based on inputs
+            function checkInputs() {
+                const adultFilled = adultInput.value.trim() !== '';
+                const childFilled = childInput.value.trim() !== '';
+                submitBtn.disabled = !(adultFilled && childFilled);
+            }
+
+            adultInput.addEventListener('input', checkInputs);
+            childInput.addEventListener('input', checkInputs);
+
+            // Submit vote
+            submitBtn.addEventListener('click', submitVote);
+            
+            // Reset button
+            document.getElementById('reset-btn').addEventListener('click', resetContest);
+        }
+
+        async function submitVote() {
+            const adultName = document.getElementById('adult-name').value.trim();
+            const childName = document.getElementById('child-name').value.trim();
+
+            if (!adultName || !childName) return;
+
+            // Normalize names (capitalize first letter of each word)
+            const normalizedAdult = normalizeName(adultName);
+            const normalizedChild = normalizeName(childName);
+            
+            try {
+                // Use a transaction to safely update votes
+                const contestRef = database.ref('contest');
+                
+                await contestRef.transaction((data) => {
+                    if (!data) {
+                        data = { version: 0, votes: { adult: {}, child: {} }, voterCount: 0 };
+                    }
+                    
+                    // Initialize votes object if needed
+                    if (!data.votes) data.votes = { adult: {}, child: {} };
+                    if (!data.votes.adult) data.votes.adult = {};
+                    if (!data.votes.child) data.votes.child = {};
+                    
+                    // Add votes
+                    data.votes.adult[normalizedAdult] = (data.votes.adult[normalizedAdult] || 0) + 1;
+                    data.votes.child[normalizedChild] = (data.votes.child[normalizedChild] || 0) + 1;
+                    data.voterCount = (data.voterCount || 0) + 1;
+                    
+                    return data;
+                });
+                
+                // Mark this device as voted for current version
+                localStorage.setItem('sweater_voted_version', currentContestVersion.toString());
+                
+                // Show success
+                showToast('Vote submitted successfully! 🎉');
+                
+                // Update UI
+                document.getElementById('voting-form').style.display = 'none';
+                document.getElementById('already-voted').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error submitting vote:', error);
+                showToast('Error submitting vote. Please try again.');
+            }
+        }
+
+        function normalizeName(name) {
+            return name.toLowerCase().split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
+
+        function renderResults() {
+            const container = document.getElementById('results-content');
+            
+            document.getElementById('total-votes').textContent = voterCount;
+            
+            if (voterCount === 0) {
+                container.innerHTML = `
+                    <div class="no-votes">
+                        <div class="icon">🗳️</div>
+                        <p>No votes yet!<br>Be the first to vote!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            // Adult results
+            html += renderCategoryResults('🧑 Adult Division', currentVotes.adult || {});
+            
+            // Child results
+            html += renderCategoryResults('👶 Child Division', currentVotes.child || {});
+            
+            container.innerHTML = html;
+        }
+
+        function renderCategoryResults(title, votes) {
+            // Convert to array and sort by votes
+            const entries = Object.entries(votes).sort((a, b) => b[1] - a[1]);
+            
+            if (entries.length === 0) {
+                return `
+                    <div class="result-category">
+                        <h3>${title}</h3>
+                        <div class="no-votes">
+                            <p>No votes in this category yet</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const maxVotes = entries[0][1];
+
+            let html = `<div class="result-category">
+                <h3>${title}</h3>`;
+            
+            entries.forEach(([name, voteCount], index) => {
+                const percentage = maxVotes > 0 ? (voteCount / maxVotes) * 100 : 0;
+                const isWinner = index === 0;
+                const rank = index + 1;
+                
+                html += `
+                    <div class="result-item ${isWinner ? 'winner' : ''}">
+                        <div class="result-rank">${rank}</div>
+                        <div class="result-info">
+                            <div class="result-name">${escapeHtml(name)}</div>
+                            <div class="result-bar-container">
+                                <div class="result-bar" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                        <div class="result-votes">${voteCount} <span>vote${voteCount !== 1 ? 's' : ''}</span></div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            return html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function resetContest() {
+            if (confirm('Are you sure you want to reset the contest? This will clear all votes and allow everyone to vote again.')) {
+                try {
+                    // Increment version and clear votes
+                    await database.ref('contest').set({
+                        version: currentContestVersion + 1,
+                        votes: { adult: {}, child: {} },
+                        voterCount: 0
+                    });
+                    
+                    // Clear local voted status (will be detected by realtime listener)
+                    localStorage.removeItem('sweater_voted_version');
+                    
+                    showToast('Contest reset! Voting is open again! 🎄');
+                    
+                    // Switch to vote page
+                    document.querySelector('[data-page="vote"]').click();
+                    
+                } catch (error) {
+                    console.error('Error resetting contest:', error);
+                    showToast('Error resetting contest. Please try again.');
+                }
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
